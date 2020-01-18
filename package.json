@@ -5,5 +5,48 @@
   "main": "index.js",
   "repository": "https://github.com/scalvert/qunit-fixtures",
   "author": "steve.calvert@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "clean": "rm -rf lib/*",
+    "lint": "eslint --ext js,ts .",
+    "test": "yarn build && qunit lib/tests && yarn clean",
+    "test:dev": "yarn build && qunit lib/tests",
+    "test:debug": "yarn build && node --inspect-brk node_modules/.bin/qunit lib/tests",
+    "prepublishOnly": "yarn build",
+    "postpublish": "yarn clean"
+  },
+  "dependencies": {
+    "recursive-readdir-sync": "^1.0.6"
+  },
+  "devDependencies": {
+    "@types/qunit": "^2.9.0",
+    "@types/tmp": "^0.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-qunit": "^4.0.0",
+    "fixturify": "^1.2.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "qunit": "^2.9.3",
+    "tmp": "^0.1.0",
+    "typescript": "^3.7.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --ext js,ts . --fix",
+      "git add"
+    ]
+  }
 }

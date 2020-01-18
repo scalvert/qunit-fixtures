@@ -1,0 +1,14 @@
+#
+.eslintrc.js
+
+# compiled output
+/dist/
+/tmp/
+/lib/
+
+# dependencies
+*node_modules/
+
+# misc
+/coverage/
+!.*

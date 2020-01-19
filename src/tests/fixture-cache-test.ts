@@ -1,3 +1,4 @@
+import * as path from 'path';
 import FixturifyFixtures from './helpers/fixturify-fixtures';
 import FixtureCache from '../fixture-cache';
 import toJson from './helpers/json-stringify';
@@ -13,6 +14,16 @@ QUnit.module('fixture-cache', function(hooks) {
 
   hooks.afterEach(function() {
     fixturifyFixtures.dispose();
+  });
+
+  test('fixtureCache errors when trying to load unsupported file types', function(assert) {
+    fixturifyFixtures.create({
+      'fixture1.foo': 'I am the first fixture',
+    });
+
+    assert.throws(() => {
+      new FixtureCache(fixturifyFixtures.baseDir);
+    }, new Error(`Unable to get fixture data for ${path.join(fixturifyFixtures.baseDir, 'fixture1.foo')}. Make sure your fixture is a supported extension (.txt or .json).`));
   });
 
   test('fixtureCache caches fixtures', function(assert) {

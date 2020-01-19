@@ -24,8 +24,16 @@ function getFixtureData(filePath: string, extension: string): ObjectOrString {
   return fixtureData;
 }
 
+function parseFilename(fixturePath: string, file: string): [string, string] {
+  let extension = path.extname(file);
+  let relativePath = file.replace(fixturePath, '');
+  let fixtureName = relativePath.slice(0, -path.extname(relativePath).length).slice(1);
+
+  return [fixtureName, extension];
+}
+
 export default class FixtureCache {
-  fixtures: Map<string, ObjectOrString>;
+  private fixtures: Map<string, ObjectOrString>;
 
   constructor(fixturePath: string) {
     this.fixtures = new Map<string, ObjectOrString>();
@@ -38,12 +46,18 @@ export default class FixtureCache {
       let files = recursiveReadSync(fixturePath);
 
       files.forEach((file: string) => {
-        let extension = path.extname(file);
+        let [fixtureName, extension] = parseFilename(fixturePath, file);
 
-        this.fixtures.set(path.basename(file, extension), getFixtureData(file, extension));
+        this.fixtures.set(fixtureName, getFixtureData(file, extension));
       });
     } catch (e) {
-      console.log(`Fixtures located in ${fixturePath} could not be loaded. Reason: ${e.message}`);
+      let message = e.message;
+
+      if (e.code === 'ENOENT') {
+        message = `The '${fixturePath}' directory doesn't appear to exist. Please provide a directory that exists as the fixturePath`;
+      }
+
+      throw new Error(message);
     }
   }
 

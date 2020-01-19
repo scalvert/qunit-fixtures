@@ -36,7 +36,7 @@ QUnit.module('fixture-cache', function(hooks) {
 
     assert.equal(fixtureCache.get('fixture1'), 'I am the first fixture');
     assert.ok(fixtureCache.get('fixture2'), 'I am the second fixture');
-    assert.equal(fixtureCache.fixtures.size, 2);
+    assert.equal(fixtureCache.size, 2);
   });
 
   test('fixtureCache.matches matches multi-line strings', function(assert) {

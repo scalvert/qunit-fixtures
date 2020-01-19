@@ -68,4 +68,8 @@ export default class FixtureCache {
 
     return this.fixtures.get(fixtureName);
   }
+
+  get size() {
+    return this.fixtures.size;
+  }
 }

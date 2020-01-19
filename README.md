@@ -1,5 +1,7 @@
 # qunit-fixtures
 
+![CI Build](https://github.com/scalvert/qunit-fixtures/workflows/CI%20Build/badge.svg)
+
 Store test fixtures in files within a designated directory, and assert on those test fixtures in tests.
 
 ## Installation

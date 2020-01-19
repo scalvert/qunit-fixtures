@@ -38,6 +38,9 @@
     "tmp": "^0.1.0",
     "typescript": "^3.7.4"
   },
+  "engines": {
+    "node": "10.* || >= 12.*"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

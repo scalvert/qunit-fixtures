@@ -2,20 +2,31 @@
   "name": "qunit-fixtures",
   "version": "0.0.1",
   "description": "Store test fixtures in files and assert on them.",
-  "main": "index.js",
   "repository": "https://github.com/scalvert/qunit-fixtures",
-  "author": "steve.calvert@gmail.com",
   "license": "MIT",
+  "author": "steve.calvert@gmail.com",
+  "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w",
     "clean": "rm -rf lib/*",
+    "dev": "tsc -w",
     "lint": "eslint --ext js,ts .",
-    "test": "yarn build && qunit lib/tests && yarn clean",
-    "test:dev": "yarn build && qunit lib/tests",
-    "test:debug": "yarn build && node --inspect-brk node_modules/.bin/qunit lib/tests",
     "prepublishOnly": "yarn build",
-    "postpublish": "yarn clean"
+    "postpublish": "yarn clean",
+    "test": "yarn build && qunit lib/tests && yarn clean",
+    "test:debug": "yarn build && node --inspect-brk node_modules/.bin/qunit lib/tests",
+    "test:dev": "yarn build && qunit lib/tests"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --ext js,ts . --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "recursive-readdir-sync": "^1.0.6"
@@ -35,21 +46,29 @@
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "qunit": "^2.9.3",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "tmp": "^0.1.0",
     "typescript": "^3.7.4"
   },
   "engines": {
     "node": "10.* || >= 12.*"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "eslint --ext js,ts . --fix",
-      "git add"
-    ]
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}",
+      "changelog": "git log --pretty=format:\"* %s (%h)\" --no-merges --perl-regexp --author=\"^((?!dependabot-preview).*)$\" ${latestTag}...HEAD"
+    },
+    "github": {
+      "release": true
+    }
   }
 }

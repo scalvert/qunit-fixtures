@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as recursiveReadSync from 'recursive-readdir-sync';
+
 import { ObjectOrString } from './types';
 
 function getFixtureData(filePath: string, extension: string): ObjectOrString {
@@ -24,10 +25,15 @@ function getFixtureData(filePath: string, extension: string): ObjectOrString {
   return fixtureData;
 }
 
-function parseFilename(fixturePath: string, file: string): [string, string] {
-  let extension = path.extname(file);
-  let relativePath = file.replace(fixturePath, '');
-  let fixtureName = relativePath.slice(0, -path.extname(relativePath).length).slice(1);
+function parseFilename(fixturePath: string, filePath: string): [string, string] {
+  let absoluteFilePath = path.resolve(filePath);
+  let extension = path.extname(filePath);
+  let absolutePath = absoluteFilePath.replace(fixturePath, '');
+  let fixtureName = absolutePath.slice(0, -path.extname(absolutePath).length);
+
+  if (fixtureName.startsWith('/')) {
+    fixtureName = fixtureName.slice(1);
+  }
 
   return [fixtureName, extension];
 }
@@ -43,10 +49,11 @@ export default class FixtureCache {
 
   loadFixtures(fixturePath: string) {
     try {
-      let files = recursiveReadSync(fixturePath);
+      let absoluteFixturePath = path.resolve(fixturePath);
+      let files = recursiveReadSync(absoluteFixturePath);
 
       files.forEach((file: string) => {
-        let [fixtureName, extension] = parseFilename(fixturePath, file);
+        let [fixtureName, extension] = parseFilename(absoluteFixturePath, file);
 
         this.fixtures.set(fixtureName, getFixtureData(file, extension));
       });

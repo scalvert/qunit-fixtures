@@ -1,6 +1,9 @@
+import * as fixturify from 'fixturify';
 import * as path from 'path';
-import FixturifyFixtures from './helpers/fixturify-fixtures';
+import * as rimraf from 'rimraf';
+
 import FixtureCache from '../fixture-cache';
+import FixturifyFixtures from './helpers/fixturify-fixtures';
 import toJson from './helpers/json-stringify';
 
 const { test } = QUnit;
@@ -37,6 +40,23 @@ QUnit.module('fixture-cache', function(hooks) {
     assert.equal(fixtureCache.get('fixture1'), 'I am the first fixture');
     assert.ok(fixtureCache.get('fixture2'), 'I am the second fixture');
     assert.equal(fixtureCache.size, 2);
+  });
+
+  test('fixtureCache caches fixtures using current directory path', function(assert) {
+    let fixturePath = path.join(process.cwd(), 'tmp', 'fixtures');
+    let fixtures = {
+      'fixture1.txt': 'I am the first fixture',
+      'fixture2.txt': 'I am the second fixture',
+    };
+    fixturify.writeSync(fixturePath, fixtures);
+
+    let fixtureCache = new FixtureCache('./tmp/fixtures');
+
+    assert.equal(fixtureCache.get('fixture1'), 'I am the first fixture');
+    assert.ok(fixtureCache.get('fixture2'), 'I am the second fixture');
+    assert.equal(fixtureCache.size, 2);
+
+    rimraf.sync(fixturePath);
   });
 
   test('fixtureCache.matches matches multi-line strings', function(assert) {

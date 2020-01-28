@@ -1,6 +1,6 @@
 import FixturifyFixtures from './helpers/fixturify-fixtures';
-import { setupFixtures } from '../';
 import { IFixtureAssert } from '../types';
+import { setupFixtures } from '../';
 import toJson from './helpers/json-stringify';
 
 const { test } = QUnit;

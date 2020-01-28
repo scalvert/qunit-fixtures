@@ -24,3 +24,10 @@ export function setupFixtures(options: FixtureCacheOptions) {
     fixtureCache = undefined;
   };
 }
+
+export {
+  IFixtureAssert as FixtureAssert,
+  IFixtureAssertions as FixtureAssertions,
+  FixtureCacheOptions,
+  ObjectOrString,
+} from './types';

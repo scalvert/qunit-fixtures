@@ -11,7 +11,7 @@
     "clean": "rm -rf lib/*",
     "dev": "tsc -w",
     "lint": "eslint --ext js,ts .",
-    "prepublishOnly": "yarn build",
+    "prepublish": "yarn build",
     "postpublish": "yarn clean",
     "test": "yarn build && qunit lib/tests && yarn clean",
     "test:debug": "yarn build && node --inspect-brk node_modules/.bin/qunit lib/tests",

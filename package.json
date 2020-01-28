@@ -1,6 +1,6 @@
 {
   "name": "qunit-fixtures",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Store test fixtures in files and assert on them.",
   "repository": "https://github.com/scalvert/qunit-fixtures",
   "license": "MIT",

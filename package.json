@@ -5,7 +5,8 @@
   "repository": "https://github.com/scalvert/qunit-fixtures",
   "license": "MIT",
   "author": "steve.calvert@gmail.com",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf lib/*",

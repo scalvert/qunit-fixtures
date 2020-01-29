@@ -1,3 +1,5 @@
+* Expanding exports (bd305ef)
+
 * Fixing pathing issues (0925623)
 
 * Fixing typings (becf683)

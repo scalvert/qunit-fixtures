@@ -25,9 +25,12 @@ export function setupFixtures(options: FixtureCacheOptions) {
   };
 }
 
+export { default as FixtureCache } from './fixture-cache';
+export { default as FixtureAssertions } from './fixture-assertions';
+
 export {
   IFixtureAssert as FixtureAssert,
-  IFixtureAssertions as FixtureAssertions,
+  IFixtureAssertions,
   FixtureCacheOptions,
   ObjectOrString,
 } from './types';
